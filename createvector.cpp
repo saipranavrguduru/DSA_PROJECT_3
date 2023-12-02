@@ -5,29 +5,25 @@
 using namespace std;
 
 int main2() {
+    vector<vector<string>> contents;
+
     ifstream file;
     file.open("smoking.csv");
-    vector<vector<string>> contents;
     string line;
     string temp;
-    if(file.is_open()){
-        int k = 0;
-        int j = 0;
+    if(file.is_open()){ //open file
         while(getline(file, line)){
             vector<string> lineContent;
-            j = 0;
-            line = line + ',';
+            line = line + ','; //make sure last value is read
             for(int i = 0; i < line.length(); i++){
                 if (line[i] != ',')
                     temp += line[i];
                 else{
-                    lineContent.push_back(temp);
+                    lineContent.push_back(temp); //adding data before each comma
                     temp = "";
-                    j++;
                 }
             }
-            contents.push_back(lineContent);
-            k++;
+            contents.push_back(lineContent); //adding row of data
         }
     }
     /*for(int i = 0; i < 6205; i++){
