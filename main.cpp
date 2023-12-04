@@ -80,7 +80,7 @@ void HeapSort(){
 void QuickSort(){
     cout << 0;
 }
-void IntroSort(){
+void MergeSort(){
     cout << 0;
 }
 void IntroductionText(){
@@ -96,7 +96,7 @@ int main() {
     cout << "3. Bubble Sort" << endl;
     cout << "4. Heap Sort" << endl;
     cout << "5. Quick Sort" << endl;
-    cout << "6. Intro Sort" << endl;
+    cout << "6. Merge Sort" << endl;
     vector<vector<string>> contents;
     createVec(contents);
     int Input;
@@ -155,7 +155,7 @@ int main() {
     else if (Input == 5)
         QuickSort();
     else if (Input == 6)
-        IntroSort();
+        MergeSort();
         return 0;
     }
 
