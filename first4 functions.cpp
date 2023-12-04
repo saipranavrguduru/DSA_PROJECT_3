@@ -116,12 +116,12 @@ void BubbleSortHelper(vector<string> &arr){
 void BubbleSort(vector<vector<string>>& arr , int r) {
     cout << "size: " << arr.size() << "\n";
     if (r == -1) {
-        for (int r = 1; r < arr.size(); r++) {
-            BubbleSortHelper(arr[r]);
+        for (int i = 1; i < arr.size(); i++) {
+            BubbleSortHelper(arr[i]);
         }
     } else {
-        for (int r = 1; r < 1000; r++) {
-            BubbleSortHelper(arr[r]);
+        for (int i = 1; i < 1000; i++) {
+            BubbleSortHelper(arr[i]);
         }
     }
 }
@@ -330,9 +330,5 @@ int main() {
             }
         }
     }
-
-
-
-
     return 0;
 }
