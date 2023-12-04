@@ -4,7 +4,7 @@
 #include <string>
 using namespace std;
 
-int main2(std::vector<std::vector<std::string>>& contents) {
+int createVec(std::vector<std::vector<std::string>>& contents) {
     ifstream file;
     file.open("smoking.csv");
     string line;
@@ -24,12 +24,14 @@ int main2(std::vector<std::vector<std::string>>& contents) {
             contents.push_back(lineContent); //adding row of data
         }
     }
-    /*for(int i = 0; i < 6205; i++){
-        for(int j = 0; j < 9; j++){
+}
+void printVec(vector<vector<string>>& contents) {
+    for(int i = 0; i < contents.size(); i++) {
+        for (int j = 0; j < contents[i].size(); j++) {
             cout << contents[i][j] << " ";
         }
         cout << endl;
-    }*/
+    }
 }
 
 
@@ -45,6 +47,7 @@ void InsertionSort(vector<vector<string>>& arr) {
         }
         arr[j + 1] = key;
     }
+    printVec(arr);
 }
 
 void SelectionSort(vector<vector<string>>& arr) {
@@ -58,10 +61,19 @@ void SelectionSort(vector<vector<string>>& arr) {
         }
         swap(arr[i], arr[minIndex]);
     }
+    printVec(arr);
 }
-void BubbleSort(){
-    cout << 0;
+
+void BubbleSort(vector<vector<string>>& arr){
+    for (int i = 0; i < arr.size(); i++){
+        for (int j = 0; j < arr.size() - i; j++){
+            if (arr[j] > arr[j+1])
+                swap(arr[j], arr[j+1]);
+        }
+    }
+    printVec(arr);
 }
+
 void HeapSort(){
     cout << 0;
 }
@@ -86,7 +98,7 @@ int main() {
     cout << "5. Quick Sort" << endl;
     cout << "6. Intro Sort" << endl;
     vector<vector<string>> contents;
-    main2(contents);
+    createVec(contents);
     int Input;
     cin >> Input;
     // takes in an input
@@ -98,42 +110,52 @@ int main() {
         int input1choice;
         cin >> input1choice;
         if (input1choice == 1) {
-            std::cout << "Insertion sort is a simple sorting algorithm that builds the final sorted array (or list) one item at a time by comparisons "
-                      << "\nBest case time complexity of Insertion Sort is O(n) with worst and average case being O(n^2)"
+            std::cout
+                    << "Insertion sort is a simple sorting algorithm that builds the final sorted array (or list) one item at a time by comparisons "
+                    << "\nBest case time complexity of Insertion Sort is O(n) with worst and average case being O(n^2)"
                     << "\nIt’s first use in a computation context traces back to 1945 when Konrad Zuse defined it as a primitive for the first high-level programming language."
                     << "\nSource: https://en.wikipedia.org/wiki/Insertion_sort"
-                      << "\nSource: https://hideoushumpbackfreak.com/algorithms/sorting-insertion.html#:~:text=The%20origin%20of%20insertion%20sort,%2Dlevel%20programming%20language%3A%20Plankalkül." << std::endl;
-        }
-        if (input1choice == 2) {
+                    << "\nSource: https://hideoushumpbackfreak.com/algorithms/sorting-insertion.html#:~:text=The%20origin%20of%20insertion%20sort,%2Dlevel%20programming%20language%3A%20Plankalkül."
+                    << std::endl;
+        } else if (input1choice == 2) {
             InsertionSort(contents);
         }
-
-
-        else if (Input == 2)
-            IntroductionText();
-            int input2choice;
-            cin >> input2choice;
+    } else if (Input == 2) {
+        IntroductionText();
+        int input2choice;
+        cin >> input2choice;
         if (input2choice == 1) {
-            std::cout << "Selection sort is noted for its simplicity and has performance advantages over more complicated algorithms in certain situations, particularly where auxiliary memory is limited."
-                      << "\nIt has an O(n2) time complexity, which makes it inefficient on large lists, and generally performs worse than the similar insertion sort."
-                      << "\nSelection sort can be used on list structures that make add and remove efficient, such as a linked list."
-                      << "\nSource: https://en.wikipedia.org/wiki/Selection_sort" << std::endl;
-        }
-        if (input2choice == 2) {
+            std::cout
+                    << "Selection sort is noted for its simplicity and has performance advantages over more complicated algorithms in certain situations, particularly where auxiliary memory is limited."
+                    << "\nIt has an O(n2) time complexity, which makes it inefficient on large lists, and generally performs worse than the similar insertion sort."
+                    << "\nSelection sort can be used on list structures that make add and remove efficient, such as a linked list."
+                    << "\nSource: https://en.wikipedia.org/wiki/Selection_sort" << std::endl;
+        } else if (input2choice == 2) {
+
             SelectionSort(contents);
         }
-
-
-
-
-        else if (Input == 3)
-            BubbleSort();
-        else if (Input == 4)
-            HeapSort();
-        else if (Input == 5)
-            QuickSort();
-        else if (Input == 6)
-            IntroSort();
+    }
+    else if (Input == 3){
+        IntroductionText();
+        int input2choice;
+        cin >> input2choice;
+        if (input2choice == 1) {
+            std::cout
+                << "Bubble sort is a simple sorting algorithm commonly used for quick sorting of smaller data sets. It treats its data like bubbles repeatedly swapping and with larger elements that bubble up to the top."
+                << "\nIt has an O(n2) time complexity, which makes it inefficient on large lists, and generally performs worse than the similar insertion sort."
+                << "\nSelection sort can be used on list structures that make add and remove efficient, such as a linked list."
+                << "\nSource: https://en.wikipedia.org/wiki/Bubble_sort" << std::endl;
+        }
+        else if (input2choice == 2) {
+            BubbleSort(contents);
+        }
+    }
+    else if (Input == 4)
+        HeapSort();
+    else if (Input == 5)
+        QuickSort();
+    else if (Input == 6)
+        IntroSort();
         return 0;
     }
 
