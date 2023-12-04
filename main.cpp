@@ -2,17 +2,36 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <algorithm>
+#include <chrono>
+#include <sstream>
 using namespace std;
+using namespace chrono;
+void printVec(vector<vector<string>>& contents) {
+    for(int i = 0; i < contents.size(); i++) {
+        for (int j = 0; j < contents[i].size(); j++) {
+            cout << contents[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
 
 int createVec(std::vector<std::vector<std::string>>& contents) {
-    ifstream file;
-    file.open("smoking.csv");
+    ifstream file("smoking.csv");
     string line;
     string temp;
-    if(file.is_open()){ //open file
+
+    if(!file.is_open()){
+        cout << "file not open" << "\n";
+        return 0;
+    }
+    if(true){ //open file
+        //cout << "hello" << "\n";
         while(getline(file, line)){
             vector<string> lineContent;
+            // cout << "line: " << line << "\n";
             line = line + ','; //make sure last value is read
+
             for(int i = 0; i < line.length(); i++){
                 if (line[i] != ',')
                     temp += line[i];
@@ -24,44 +43,58 @@ int createVec(std::vector<std::vector<std::string>>& contents) {
             contents.push_back(lineContent); //adding row of data
         }
     }
-}
-void printVec(vector<vector<string>>& contents) {
-    for(int i = 0; i < contents.size(); i++) {
-        for (int j = 0; j < contents[i].size(); j++) {
-            cout << contents[i][j] << " ";
-        }
-        cout << endl;
-    }
+
+    file.close();
 }
 
-
-
-void InsertionSort(vector<vector<string>>& arr) {
-    int n = arr.size();
-    for (int i = 1; i < n; i++) {
-        vector<string> key = arr[i];
-        int j = i - 1;
-        while (j >= 0 && arr[j] > key) {
-            arr[j + 1] = arr[j];
+void insertSortHelper(vector<string> &arr){
+    for (int i = 2; i < arr.size(); i++){
+        int j = i-1;
+        float val = stof(arr[i]);
+        while(j >= 1 && val < stof(arr[j])){
+            arr[j+1] = arr[j];
             j--;
         }
-        arr[j + 1] = key;
+        arr[j+1] = to_string(val);
     }
-    printVec(arr);
+    for(string val : arr)
+        cout << val << "\n";
 }
 
-void SelectionSort(vector<vector<string>>& arr) {
-    int n = arr.size();
-    for (int i = 0; i < n - 1; i++) {
-        int minIndex = i;
-        for (int j = i + 1; j < n; j++) {
-            if (arr[j] < arr[minIndex]) {
-                minIndex = j;
-            }
-        }
-        swap(arr[i], arr[minIndex]);
+
+void InsertionSort(vector<vector<string>>& arr, int r) {
+    cout << "size: " << arr.size() << "\n";
+    if(r == -1 ) {
+        for(int r = 1; r < arr.size();r++){
+            insertSortHelper(arr[r]);}
     }
-    printVec(arr);
+    else {
+        insertSortHelper(arr[2]);
+    }
+}
+
+void selectionsorthelper(vector<string> &arr){
+    for(int i = 1; i < arr.size();i++){
+        int minIdx = i;
+        for(int j = i;j < arr.size();j++){
+            if(stof(arr[j]) < stof(arr[minIdx])){
+                minIdx = j;}
+        }
+
+        swap(arr[i],arr[minIdx]);
+    }
+    for(string val : arr)
+        cout << val << "\n";
+}
+void SelectionSort(vector<vector<string>>& arr, int r) {
+    cout << "size: " << arr.size() << "\n";
+    if(r == -1 ) {
+        for(int r = 1; r < arr.size();r++){
+            selectionsorthelper(arr[r]);}
+    }
+    else {
+        selectionsorthelper(arr[2]);
+    }
 }
 
 void BubbleSort(vector<vector<string>>& arr){
@@ -87,6 +120,11 @@ void IntroductionText(){
     cout << "What would you like to learn about this algorithm?" << endl;
     cout << "1. History of Algorithm!" << endl;
     cout << "2. Time Complexity" << endl;
+}
+void RowSelect(){
+    cout << "Which row do you want to sort?" << endl;
+    cout << "1. 1 Row" << endl;
+    cout << "2. All Rows" << endl;
 }
 int main() {
     cout << "Welcome to Our Project 3!!!" << endl;
@@ -117,10 +155,32 @@ int main() {
                     << "\nSource: https://en.wikipedia.org/wiki/Insertion_sort"
                     << "\nSource: https://hideoushumpbackfreak.com/algorithms/sorting-insertion.html#:~:text=The%20origin%20of%20insertion%20sort,%2Dlevel%20programming%20language%3A%20Plankalkül."
                     << std::endl;
+
+
         } else if (input1choice == 2) {
-            InsertionSort(contents);
+            RowSelect();
+            int row;
+            cin >> row;
+            if (row == 1){
+                auto start_time = chrono::high_resolution_clock::now();
+                InsertionSort(contents, 1);
+                auto end_time = chrono::high_resolution_clock::now();
+                auto duration = duration_cast<chrono::milliseconds>(end_time - start_time);
+                cout << "It took:" << duration.count() << " amount of seconds to run this sorting algorithm on 1 row";
+            }
+            else{
+                auto start_time = chrono::high_resolution_clock::now();
+                InsertionSort(contents, -1);
+                auto end_time = chrono::high_resolution_clock::now();
+                auto duration = duration_cast<chrono::milliseconds>(end_time - start_time);
+                cout << "It took:" << duration.count() << " amount of milliseconds to run this sorting algorithm";
+            }
         }
-    } else if (Input == 2) {
+    }
+
+
+
+    else if (Input == 2) {
         IntroductionText();
         int input2choice;
         cin >> input2choice;
@@ -131,8 +191,23 @@ int main() {
                     << "\nSelection sort can be used on list structures that make add and remove efficient, such as a linked list."
                     << "\nSource: https://en.wikipedia.org/wiki/Selection_sort" << std::endl;
         } else if (input2choice == 2) {
-
-            SelectionSort(contents);
+            RowSelect();
+            int row;
+            cin >> row;
+            if (row == 1) {
+                auto start_time = chrono::high_resolution_clock::now();
+                SelectionSort(contents, 1);
+                auto end_time = chrono::high_resolution_clock::now();
+                auto duration = duration_cast<chrono::milliseconds>(end_time - start_time);
+                cout << "It took:" << duration.count() << " amount of milliseconds to run this sorting algorithm on 1 row";
+            }
+            else{
+                auto start_time = chrono::high_resolution_clock::now();
+                SelectionSort(contents, -1);
+                auto end_time = chrono::high_resolution_clock::now();
+                auto duration = duration_cast<chrono::milliseconds>(end_time - start_time);
+                cout << "It took:" << duration.count() << " amount of milliseconds to run this sorting algorithm";
+            }
         }
     }
     else if (Input == 3){
@@ -141,10 +216,10 @@ int main() {
         cin >> input2choice;
         if (input2choice == 1) {
             std::cout
-                << "Bubble sort is a simple sorting algorithm commonly used for quick sorting of smaller data sets. It treats its data like bubbles repeatedly swapping and with larger elements that bubble up to the top."
-                << "\nIt has an O(n2) time complexity, which makes it inefficient on large lists, and generally performs worse than the similar insertion sort."
-                << "\nSelection sort can be used on list structures that make add and remove efficient, such as a linked list."
-                << "\nSource: https://en.wikipedia.org/wiki/Bubble_sort" << std::endl;
+                    << "Bubble sort is a simple sorting algorithm commonly used for quick sorting of smaller data sets. It treats its data like bubbles repeatedly swapping and with larger elements that bubble up to the top."
+                    << "\nIt has an O(n2) time complexity, which makes it inefficient on large lists, and generally performs worse than the similar insertion sort."
+                    << "\nSelection sort can be used on list structures that make add and remove efficient, such as a linked list."
+                    << "\nSource: https://en.wikipedia.org/wiki/Bubble_sort" << std::endl;
         }
         else if (input2choice == 2) {
             BubbleSort(contents);
@@ -156,11 +231,10 @@ int main() {
         QuickSort();
     else if (Input == 6)
         MergeSort();
-        return 0;
-    }
+    return 0;
+}
 
 
 
 // insertion sort
 // selection sort
-}
