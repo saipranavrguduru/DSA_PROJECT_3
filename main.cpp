@@ -326,14 +326,11 @@ int main() {
             //1000 rows
             if (row == 1){
                 auto start_time = chrono::high_resolution_clock::now();
-                for (int i = 1; i < 1000; i++) {
-                    InsertionSort(contents, i);
-                }
+                    InsertionSort(contents, 1);
                 auto end_time = chrono::high_resolution_clock::now();
                 auto duration = duration_cast<chrono::milliseconds>(end_time - start_time);
                 cout << "It took: " << duration.count() << " milliseconds to run this sorting algorithm on 1000 rows.";
             }
-
                 //All rows
             else {
                 auto start_time = chrono::high_resolution_clock::now();
@@ -371,9 +368,8 @@ int main() {
             //100 rows
             if (row == 1) {
                 auto start_time = chrono::high_resolution_clock::now();
-                for (int i = 1; i < 1000; i++) {
-                    SelectionSort(contents, i);
-                }
+                    SelectionSort(contents, 1);
+
                 auto end_time = chrono::high_resolution_clock::now();
                 auto duration = duration_cast<chrono::milliseconds>(end_time - start_time);
                 cout << "It took: " << duration.count() << " milliseconds to run this sorting algorithm on 1000 rows.";
@@ -416,9 +412,7 @@ int main() {
             //1000 rows
             if (row == 1) {
                 auto start_time = chrono::high_resolution_clock::now();
-                for (int i = 1; i < 1000; i++) {
-                    BubbleSort(contents, i);
-                }
+                    BubbleSort(contents, 1);
                 auto end_time = chrono::high_resolution_clock::now();
                 auto duration = duration_cast<chrono::milliseconds>(end_time - start_time);
                 cout << "It took: " << duration.count() << " milliseconds to run this sorting algorithm on 1000 rows.";
@@ -461,9 +455,7 @@ int main() {
             //1000 rows
             if (row == 1) {
                 auto start_time = chrono::high_resolution_clock::now();
-                for (int i = 1; i < 1000; i++) {
-                    HeapSort(contents[i]);
-                }
+                    HeapSort(contents[1]);
                 auto end_time = chrono::high_resolution_clock::now();
                 auto duration = duration_cast<chrono::milliseconds>(end_time - start_time);
                 cout << "It took: " << duration.count() << " milliseconds to run this sorting algorithm on 1000 rows.";
